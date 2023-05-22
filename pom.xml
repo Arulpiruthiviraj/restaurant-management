@@ -17,6 +17,7 @@
         <java.version>17</java.version>
         <jakarta.validation.version>2.0.2</jakarta.validation.version>
         <hibernate.validator.version>7.0.1.Final</hibernate.validator.version>
+        <postresql.driver.version>42.6.0</postresql.driver.version>
     </properties>
     <dependencies>
         <!-- Spring Boot Starter Dependencies -->
@@ -42,11 +43,17 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
+        <!-- !TODO uncomment when implementing security -->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-security</artifactId>-->
+<!--        </dependency>-->
+
         <!-- PostgreSQL JDBC Driver -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
+            <version>${postresql.driver.version}</version>
         </dependency>
 
         <!-- Lombok -->

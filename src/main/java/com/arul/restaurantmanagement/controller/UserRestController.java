@@ -1,6 +1,6 @@
 package com.arul.restaurantmanagement.controller;
 
-import com.arul.restaurantmanagement.entity.User;
+import com.arul.restaurantmanagement.dto.user.UserDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,25 +12,25 @@ import java.util.List;
 @RequestMapping(path = "/user")
 public interface UserRestController {
     @GetMapping("")
-    ResponseEntity<List<User>> getAllUsers();
+    ResponseEntity<List<UserDTO>> getAllUsers();
 
     @GetMapping("/{id}")
-    ResponseEntity<User> getUserById(@PathVariable("id") Long id);
+    ResponseEntity<UserDTO> getUserById(@PathVariable("id") Long id);
 
     @PostMapping("")
-    ResponseEntity<User> createUser(@RequestBody User user);
+    ResponseEntity<UserDTO> createUser(@RequestBody @Valid UserDTO userDTO);
 
     @PutMapping("/{id}")
-    ResponseEntity<User> updateUser(@PathVariable("id") Long id, @RequestBody User user);
+    ResponseEntity<UserDTO> updateUser(@PathVariable("id") Long id, @RequestBody @Valid UserDTO userDTO);
 
     @DeleteMapping("/{id}")
     ResponseEntity<Void> deleteUser(@PathVariable("id") Long id);
 
     @GetMapping("/email/{email}")
-    ResponseEntity<User> getUserByEmail(@PathVariable String email);
+    ResponseEntity<UserDTO> getUserByEmail(@PathVariable @NotBlank @Email String email);
 
     @PutMapping("/email/{email}")
-    ResponseEntity<User> updateUserByEmail(@PathVariable @NotBlank @Email String email, @Valid User user);
+    ResponseEntity<UserDTO> updateUserByEmail(@PathVariable @NotBlank @Email String email, @RequestBody @Valid UserDTO userDTO);
 
     @DeleteMapping("/email/{email}")
     ResponseEntity<Void> deleteUserByEmail(@PathVariable @NotBlank @Email String email);

@@ -1,23 +1,24 @@
 package com.arul.restaurantmanagement.service;
 
+import com.arul.restaurantmanagement.dto.user.UserDTO;
 import com.arul.restaurantmanagement.entity.User;
 
 import java.util.List;
 
 public interface UserService {
-    List<User> getAllUsers();
+    List<UserDTO> getAllUsers();
 
-    User getUserById(Long id);
+    UserDTO getUserById(Long id);
 
-    User createUser(User user);
+    UserDTO createUser(UserDTO userDTO);
 
-    User updateUser(Long id, User updatedUser);
+    UserDTO updateUser(Long id, UserDTO updatedUserDTO);
 
     boolean deleteUser(Long id);
 
-    User findByEmail(String email);
+    UserDTO findByEmail(String email);
 
     boolean deleteUserByEmail(String email);
 
-    User updateUserByEmail(String email, User user);
+    UserDTO updateUserByEmail(String email, UserDTO userDTO);
 }
