@@ -22,14 +22,15 @@ public class JwtService {
     @Value("${jwt.expiration}")
     private long jwtExpirationMs;
 
-    public String generateToken(String username) {
+    public String generateToken(Map<String, Object> claims, String subject) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
 
         SecretKey secretKey = generateSecretKey();
 
         return Jwts.builder()
-                .setSubject(username)
+                .setClaims(claims)
+                .setSubject(subject)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, secretKey)
@@ -53,13 +54,13 @@ public class JwtService {
     }
 
     public <T> T extractClaims(String token, Function<Claims, T> claimsResolver) {
-        Map<String, Object> allClaims = extractAllClaims(token);
+        Map<String, Object> allClaims = getAllClaims(token);
         Claims claims = Jwts.claims(allClaims);
 
         return claimsResolver.apply(claims);
     }
 
-    public Map<String, Object> extractAllClaims(String token) {
+    public Map<String, Object> getAllClaims(String token) {
         return Jwts.parser()
                 .setSigningKey(generateSecretKey())
                 .parseClaimsJws(token)
@@ -68,5 +69,14 @@ public class JwtService {
 
     public String getUsernameFromToken(String token) {
         return extractClaims(token, Claims::getSubject);
+    }
+
+    public Date getExpiration(String token) {
+        return extractClaims(token, Claims::getExpiration);
+    }
+
+    public boolean isTokenExpired(String token) {
+        Date expirationDate = getExpiration(token);
+        return expirationDate != null && expirationDate.before(new Date());
     }
 }
